@@ -3,32 +3,25 @@ package com.devsuperior.hrpayroll.services;
 
 import com.devsuperior.hrpayroll.entities.Payment;
 import com.devsuperior.hrpayroll.entities.Worker;
+import com.devsuperior.hrpayroll.feingclients.WorkerFeingClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.stereotype.Service;
+
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class PaymentService {
 
-    @Value("{hr-worker.host}")
-    private String workerHost;
-
-    private final RestTemplate restTemplate;
+    private final WorkerFeingClient workerFeingClient;
 
     public Payment getPayment(long workerId, int days){
 
-        Map<String, String> urlVariables = new HashMap<>();
-        urlVariables.put("id", ""+workerId);
-        log.info( "URL: {}", workerHost);
 
-        Worker worker = restTemplate.getForObject(workerHost + "/workers/{id}", Worker.class, urlVariables);
+
+        Worker worker = workerFeingClient.findByid(workerId).getBody();
 
         return new Payment(worker.getName(), worker.getDailyIncome(), days);
 
