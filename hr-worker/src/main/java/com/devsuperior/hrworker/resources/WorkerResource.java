@@ -4,6 +4,7 @@ import com.devsuperior.hrworker.entities.Worker;
 import com.devsuperior.hrworker.repositories.WorkerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,9 @@ import java.util.List;
 @Slf4j
 public class WorkerResource {
 
+    @Value("${test.config}")
+    private String testeConfig;
+
     private final Environment environment;
 
     private final WorkerRepository workerRepository;
@@ -30,6 +34,13 @@ public class WorkerResource {
         return ResponseEntity.ok(list);
 
     }
+    @GetMapping(value = "/configs")
+    public ResponseEntity<Void> getConfigs(){
+        log.info("CONFIG: {}", testeConfig);
+
+        return ResponseEntity.noContent().build();
+
+    }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Worker> findByid(@PathVariable Long id){
@@ -39,6 +50,7 @@ public class WorkerResource {
         return ResponseEntity.ok(worker);
 
     }
+
 
 
 }
