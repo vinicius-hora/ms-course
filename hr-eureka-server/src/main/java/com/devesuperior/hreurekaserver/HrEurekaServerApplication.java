@@ -5,8 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
-@EnableEurekaServer
+
 @SpringBootApplication
+@EnableEurekaServer
 public class HrEurekaServerApplication {
 
 	public static void main(String[] args) {
